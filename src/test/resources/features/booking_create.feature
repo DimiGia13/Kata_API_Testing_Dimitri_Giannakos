@@ -26,6 +26,7 @@ Feature: Booking creation
     Then the response status should be 400
     And the response errors should contain "size must be between 11 and 21"
 
+  @specDeviation
   Scenario: Create booking fails when dates are invalid
     When I create a booking with invalid dates
     Then the response status should be 409
