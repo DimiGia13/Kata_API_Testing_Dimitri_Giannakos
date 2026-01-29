@@ -1,6 +1,6 @@
-Feature: Booking Api
+Feature: Get all Bookings
 
-  @booking @smoke
+
   Scenario: View all the bookings
     Given the Booking API is available
     When I send a GET request to /booking
@@ -8,7 +8,3 @@ Feature: Booking Api
     And the response should contain at least one booking
 
 
-  Scenario: Successfully create a booking
-    When I create a booking with valid data
-    Then the response status code should be 200
-    And the response should contain a bookingid
