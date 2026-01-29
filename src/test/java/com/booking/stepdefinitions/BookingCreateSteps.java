@@ -1,5 +1,6 @@
 package com.booking.stepdefinitions;
 
+import com.booking.ApiResponseHelper;
 import com.booking.builder.BookingPayloadBuilder;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
@@ -47,16 +48,10 @@ public class BookingCreateSteps {
                         .then()
                         .extract().response();
 
+        ApiResponseHelper.setLastResponse(response);
     }
 
-    @Then("the response status code should be {int}")
-    public void theResponseStatusCodeShouldBe(int expected) {
-        int actual = response.statusCode();
-        Assertions.assertTrue(
-                actual == expected || actual == 201,
-                "Expected status " + expected + " or 201 but was " + actual
-        );
-    }
+
 
     @And("the response should contain a bookingid")
     public void theResponseShouldContainABookingId() {
@@ -94,6 +89,8 @@ public class BookingCreateSteps {
                         .post("/booking")
                         .then()
                         .extract().response();
+
+        ApiResponseHelper.setLastResponse(response);
     }
 
     @When("I create a booking with an invalid lastname")
@@ -121,6 +118,8 @@ public class BookingCreateSteps {
                         .post("/booking")
                         .then()
                         .extract().response();
+
+        ApiResponseHelper.setLastResponse(response);
     }
 
     @When("I create a booking with an invalid email")
@@ -148,6 +147,8 @@ public class BookingCreateSteps {
                         .post("/booking")
                         .then()
                         .extract().response();
+
+        ApiResponseHelper.setLastResponse(response);
     }
 
     @When("I create a booking with an invalid Phone number")
@@ -175,6 +176,8 @@ public class BookingCreateSteps {
                         .post("/booking")
                         .then()
                         .extract().response();
+
+        ApiResponseHelper.setLastResponse(response);
     }
 
 
@@ -203,10 +206,9 @@ public class BookingCreateSteps {
                         .post("/booking")
                         .then()
                         .extract().response();
+
+        ApiResponseHelper.setLastResponse(response);
     }
-
-
-
 
 
 }

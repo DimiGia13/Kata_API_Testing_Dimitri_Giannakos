@@ -1,5 +1,6 @@
 package com.booking.stepdefinitions;
 
+import com.booking.ApiResponseHelper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -43,15 +44,13 @@ public class AuthSteps {
                 .when()
                 .post("/auth/login");
 
+        ApiResponseHelper.setLastResponse(response);
+
         if (response.statusCode() == 200) {
             token = response.jsonPath().getString("token");
         }
     }
 
-    @Then("the response status should be {int}")
-    public void theResponseStatusShouldBe(int statusCode) {
-        Assertions.assertEquals(statusCode, response.statusCode());
-    }
 
     @And("the response should contain a token")
     public void theResponseShouldContainAToken() {

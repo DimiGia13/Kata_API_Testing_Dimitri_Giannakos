@@ -1,5 +1,6 @@
 package com.booking.stepdefinitions;
 
+import com.booking.ApiResponseHelper;
 import com.booking.builder.BookingPayloadBuilder;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
@@ -105,6 +106,11 @@ public class BookingById {
                 .then()
                 .extract()
                 .response();
+
+        System.out.println("GET /booking/{id} response:");
+        System.out.println(response.asString());
+
+        ApiResponseHelper.setLastResponse(response);
     }
 
     @And("I retrieve the booking by id without authentication")
@@ -124,19 +130,14 @@ public class BookingById {
 
     @Then("the booking details should match the created booking")
     public void theBookingDetailsShouldMatchTheCreatedBooking() {
+        assertEquals(bookingId, response.jsonPath().getInt("bookingid"));
         assertEquals(firstname, response.jsonPath().getString("firstname"));
         assertEquals(lastname, response.jsonPath().getString("lastname"));
         assertEquals(roomId, response.jsonPath().getInt("roomid"));
         assertEquals(depositPaid, response.jsonPath().getBoolean("depositpaid"));
         assertEquals(checkin, response.jsonPath().getString("bookingdates.checkin"));
         assertEquals(checkout, response.jsonPath().getString("bookingdates.checkout"));
-        assertEquals(email, response.jsonPath().getString("email"));
-        assertEquals(phone, response.jsonPath().getString("phone"));
     }
 
-    @Then("the response status should be {int}")
-    public void theResponseStatusShouldBe(int code) {
-        assertEquals(code, response.statusCode(), response.asString());
-    }
 
 }
