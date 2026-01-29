@@ -13,22 +13,24 @@ import java.util.Random;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class BookingById {
+public class BookingUpdateSteps {
     private static final String BASE_URL = "https://automationintesting.online/api";
 
     private Response response;
 
     private String token;
     private Integer bookingId;
-
-    // expected booking data
     private int roomId;
-    private String firstname;
-    private String lastname;
-    private boolean depositPaid;
-    private String checkin;
-    private String checkout;
+
+
+    // updated expected data
+    private String updatedFirstname;
+    private String updatedLastname;
+    private String updatedCheckin;
+    private String updatedCheckout;
+    private int updatedRoomId;
 
     // ---------- AUTH ----------
 
@@ -57,13 +59,13 @@ public class BookingById {
 
         String payload = BookingPayloadBuilder.build(
                 roomId,
-                firstname = "John",
-                lastname ="Doe",
-                depositPaid = true,
-                checkin = "2025-11-01",
-                checkout = "2025-11-05",
-               "john.doe@example.com",
-               "11999999999"
+                "John",
+               "Doe",
+                 true,
+                "2025-11-01",
+                 "2025-11-05",
+                "john.doe@example.com",
+                "11999999999"
         );
 
         response =
@@ -87,54 +89,86 @@ public class BookingById {
 
     }
 
-    // ---------- GET BOOKING BY ID ----------
-
-    @And("I retrieve the booking by id")
-    public void iRetrieveTheBookingById() {
+    @And("I update the booking with new data")
+    public void iUpdateTheBookingWithNewData() {
         assertNotNull(token, "Token not set");
         assertNotNull(bookingId, "bookingId not set");
 
+        // new data
+        updatedRoomId = new Random().nextInt(100) + 1;
+        updatedFirstname = "Jane";
+        updatedLastname = "Smith";
+        updatedCheckin = "2025-12-01";
+        updatedCheckout = "2025-12-05";
+
+        String payload = BookingPayloadBuilder.build(
+                updatedRoomId,
+                updatedFirstname,
+                updatedLastname,
+                false,
+                updatedCheckin,
+                updatedCheckout,
+                "john.doe@example.com",
+                "11999999999"
+
+        );
+
         response = given()
                 .baseUri(BASE_URL)
+                .contentType(JSON)
                 .accept(JSON)
                 .header("Cookie", "token=" + token)
                 .pathParam("id", bookingId)
+                .body(payload)
                 .when()
-                .get("/booking/{id}")
+                .put("/booking/{id}")
                 .then()
                 .extract()
                 .response();
-
-        System.out.println("GET /booking/{id} response:");
-        System.out.println(response.asString());
 
         ApiResponseHelper.setLastResponse(response);
     }
 
-    @And("I retrieve the booking by id without authentication")
-    public void iRetrieveTheBookingByIdWithoutAuthentication() {
+    @And("I update the booking with new data without authentication")
+    public void iUpdateTheBookingWithNewDataWithoutAuthentication() {
         assertNotNull(bookingId, "bookingId not set");
+
+        // reuse same updated values (or just set them here again)
+        int anyRoomId = new Random().nextInt(100) + 1;
+
+        String payload = BookingPayloadBuilder.build(
+                anyRoomId,
+                "Jane",
+                "Smith",
+                false,
+                "2025-12-01",
+                "2025-12-05",
+                "jane.smith@example.com",
+                "11888888888"
+        );
 
         response = given()
                 .baseUri(BASE_URL)
+                .contentType(JSON)
                 .accept(JSON)
                 .pathParam("id", bookingId)
+                .body(payload)
                 .when()
-                .get("/booking/{id}")
+                .put("/booking/{id}")
                 .then()
                 .extract()
                 .response();
+
+        ApiResponseHelper.setLastResponse(response);
     }
 
-    @Then("the booking details should match the created booking")
-    public void theBookingDetailsShouldMatchTheCreatedBooking() {
-        assertEquals(bookingId, response.jsonPath().getInt("bookingid"));
-        assertEquals(firstname, response.jsonPath().getString("firstname"));
-        assertEquals(lastname, response.jsonPath().getString("lastname"));
-        assertEquals(roomId, response.jsonPath().getInt("roomid"));
-        assertEquals(depositPaid, response.jsonPath().getBoolean("depositpaid"));
-        assertEquals(checkin, response.jsonPath().getString("bookingdates.checkin"));
-        assertEquals(checkout, response.jsonPath().getString("bookingdates.checkout"));
+    @Then("the updated booking should reflect the new data")
+    public void theUpdatedBookingShouldReflectTheNewData() {
+        assertEquals(updatedFirstname, response.jsonPath().getString("firstname"));
+        assertEquals(updatedLastname, response.jsonPath().getString("lastname"));
+        assertEquals(updatedRoomId, response.jsonPath().getInt("roomid"));
+        assertEquals(updatedCheckin, response.jsonPath().getString("bookingdates.checkin"));
+        assertEquals(updatedCheckout, response.jsonPath().getString("bookingdates.checkout"));
     }
 
 
