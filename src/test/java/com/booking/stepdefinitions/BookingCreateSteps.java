@@ -1,5 +1,6 @@
 package com.booking.stepdefinitions;
 
+import com.booking.builder.BookingPayloadBuilder;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
@@ -22,22 +23,18 @@ public class BookingCreateSteps {
     //region create a booking scenario
     @When("I create a booking with valid data")
     public void iSendAPostRequestToBookingWithValidData(){
-        roomId = RANDOM.nextInt(100) + 1;
+         roomId = new Random().nextInt(100) + 1;
 
-        String payload = """
-    {
-      "roomid": %d,
-      "firstname": "John",
-      "lastname": "Doe",
-      "depositpaid": true,
-      "bookingdates": {
-        "checkin": "2025-11-01",
-        "checkout": "2025-11-05"
-      },
-      "email": "john.doe@example.com",
-      "phone": "11999999999"
-    }
-    """.formatted(roomId);
+        String payload = BookingPayloadBuilder.build(
+                roomId,
+                "Jo",
+                "Doe",
+                true,
+                "2025-11-01",
+                "2025-11-05",
+                "john.doe@example.com",
+                "11999999999"
+        );
 
         response =
                 given()
@@ -74,9 +71,9 @@ public class BookingCreateSteps {
 
     @When("I create a booking with an invalid firstname")
     public void iCreateABookingWithInvalidFirstname() {
-        int roomId = new Random().nextInt(100) + 1;
+        roomId = new Random().nextInt(100) + 1;
 
-        String payload = buildBookingPayload(
+        String payload = BookingPayloadBuilder.build(
                 roomId,
                 "Jo",
                 "Doe",
@@ -101,9 +98,9 @@ public class BookingCreateSteps {
 
     @When("I create a booking with an invalid lastname")
     public void iCreateABookingWithInvalidLastname() {
-        int roomId = new Random().nextInt(100) + 1;
+        roomId = new Random().nextInt(100) + 1;
 
-        String payload = buildBookingPayload(
+        String payload = BookingPayloadBuilder.build(
                 roomId,
                 "John",
                 "Do",
@@ -128,9 +125,9 @@ public class BookingCreateSteps {
 
     @When("I create a booking with an invalid email")
     public void iCreateABookingWithInvalidEmail() {
-        int roomId = new Random().nextInt(100) + 1;
+        roomId = new Random().nextInt(100) + 1;
 
-        String payload = buildBookingPayload(
+        String payload = BookingPayloadBuilder.build(
                 roomId,
                 "John",
                 "Doe",
@@ -155,9 +152,9 @@ public class BookingCreateSteps {
 
     @When("I create a booking with an invalid Phone number")
     public void iCreateABookingWithInvalidPhoneNumber() {
-        int roomId = new Random().nextInt(100) + 1;
+        roomId = new Random().nextInt(100) + 1;
 
-        String payload = buildBookingPayload(
+        String payload = BookingPayloadBuilder.build(
                 roomId,
                 "John",
                 "Doe",
@@ -183,9 +180,9 @@ public class BookingCreateSteps {
 
     @When("I create a booking with invalid dates")
     public void iCreateABookingWithInvalidDates() {
-        int roomId = new Random().nextInt(100) + 1;
+        roomId = new Random().nextInt(100) + 1;
 
-        String payload = buildBookingPayload(
+        String payload = BookingPayloadBuilder.build(
                 roomId,
                 "John",
                 "Doe",
@@ -212,40 +209,4 @@ public class BookingCreateSteps {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-    private String buildBookingPayload(
-            int roomId,
-            String firstname,
-            String lastname,
-            boolean depositPaid,
-            String checkin,
-            String checkout,
-            String email,
-            String phone
-    ) {
-        return """
-    {
-      "roomid": %d,
-      "firstname": "%s",
-      "lastname": "%s",
-      "depositpaid": %s,
-      "bookingdates": {
-        "checkin": "%s",
-        "checkout": "%s"
-      },
-      "email": "%s",
-      "phone": "%s"
-    }
-    """.formatted(roomId, firstname, lastname, depositPaid, checkin, checkout, email, phone);
-    }
 }
