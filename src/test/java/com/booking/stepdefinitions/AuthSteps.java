@@ -1,6 +1,7 @@
 package com.booking.stepdefinitions;
 
 import com.booking.ApiResponseHelper;
+import com.booking.helper.ApiScenarioHelper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -46,8 +47,11 @@ public class AuthSteps {
 
         ApiResponseHelper.setLastResponse(response);
 
+
+
         if (response.statusCode() == 200) {
             token = response.jsonPath().getString("token");
+            ApiScenarioHelper.setToken(token);
         }
     }
 
@@ -62,9 +66,5 @@ public class AuthSteps {
     public void theErrorMessageShouldBe(String expected) {
         String error = response.jsonPath().getString("error");
         Assertions.assertEquals(expected, error);
-    }
-
-    public String getToken() {
-        return token;
     }
 }

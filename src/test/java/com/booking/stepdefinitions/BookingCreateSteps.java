@@ -2,17 +2,18 @@ package com.booking.stepdefinitions;
 
 import com.booking.ApiResponseHelper;
 import com.booking.builder.BookingPayloadBuilder;
+import com.booking.helper.ApiScenarioHelper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import org.junit.jupiter.api.Assertions;
+import io.restassured.response.Response;
 
 import java.util.Random;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.notNullValue;
-import io.restassured.response.Response;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class BookingCreateSteps {
 
@@ -28,7 +29,7 @@ public class BookingCreateSteps {
 
         String payload = BookingPayloadBuilder.build(
                 roomId,
-                "Jo",
+                "John",
                 "Doe",
                 true,
                 "2025-11-01",
@@ -48,6 +49,18 @@ public class BookingCreateSteps {
                         .then()
                         .extract().response();
 
+        ApiScenarioHelper.setBookingData(
+                roomId,
+                "John",
+                "Doe",
+                true,
+                "2025-11-01",
+                "2025-11-05"
+        );
+
+        Integer bookingId = response.jsonPath().getInt("bookingid");
+        assertNotNull(bookingId);
+        ApiScenarioHelper.setBookingId(bookingId);
         ApiResponseHelper.setLastResponse(response);
     }
 
@@ -89,6 +102,7 @@ public class BookingCreateSteps {
                         .post("/booking")
                         .then()
                         .extract().response();
+
 
         ApiResponseHelper.setLastResponse(response);
     }

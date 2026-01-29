@@ -1,26 +1,21 @@
 package com.booking.stepdefinitions;
 
 import com.booking.ApiResponseHelper;
-import com.booking.builder.BookingPayloadBuilder;
+import com.booking.helper.ApiScenarioHelper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.restassured.RestAssured;
 import io.restassured.response.Response;
-
-import java.util.Random;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class BookingById {
     private static final String BASE_URL = "https://automationintesting.online/api";
 
     private Response response;
-
-    private String token;
-    private Integer bookingId;
 
     // expected booking data
     private int roomId;
@@ -30,67 +25,12 @@ public class BookingById {
     private String checkin;
     private String checkout;
 
-    // ---------- AUTH ----------
-
-    @When("I authenticate as admin")
-    public void iAuthenticateAsAdmin() {
-        response = RestAssured
-                .given()
-                .baseUri(BASE_URL)
-                .contentType(JSON)
-                .accept(JSON)
-                .body("{\"username\":\"admin\",\"password\":\"password\"}")
-                .when()
-                .post("/auth/login");
-
-        assertEquals(200, response.statusCode(), "Login should return 200");
-
-        token = response.jsonPath().getString("token");
-        assertNotNull(token, "Token should not be null");
-        assertFalse(token.isBlank(), "Token should not be blank");
-    }
-
-    // ---------- CREATE BOOKING ----------
-    @And("I create a booking")
-    public void iSendAPostRequestToBookingWithValidData(){
-        roomId = new Random().nextInt(100) + 1;
-
-        String payload = BookingPayloadBuilder.build(
-                roomId,
-                firstname = "John",
-                lastname ="Doe",
-                depositPaid = true,
-                checkin = "2025-11-01",
-                checkout = "2025-11-05",
-               "john.doe@example.com",
-               "11999999999"
-        );
-
-        response =
-                given()
-                        .baseUri("https://automationintesting.online/api")
-                        .contentType("application/json")
-                        .accept("application/json")
-                        .body(payload)
-                        .when()
-                        .post("/booking")
-                        .then()
-                        .extract().response();
-
-        int status = response.statusCode();
-        assertTrue(status == 200 || status == 201,
-                "Expected 200 or 201 but got " + status + " body: " + response.asString());
-
-        bookingId = response.jsonPath().getInt("bookingid");
-        assertNotNull(bookingId, "bookingid should not be null");
-        assertTrue(bookingId > 0, "bookingid should be > 0");
-
-    }
-
     // ---------- GET BOOKING BY ID ----------
 
-    @And("I retrieve the booking by id")
+    @When("I retrieve the booking by id")
     public void iRetrieveTheBookingById() {
+        String token = ApiScenarioHelper.getToken();
+        Integer bookingId = ApiScenarioHelper.getBookingId();
         assertNotNull(token, "Token not set");
         assertNotNull(bookingId, "bookingId not set");
 
@@ -111,8 +51,9 @@ public class BookingById {
         ApiResponseHelper.setLastResponse(response);
     }
 
-    @And("I retrieve the booking by id without authentication")
+    @When("I retrieve the booking by id without authentication")
     public void iRetrieveTheBookingByIdWithoutAuthentication() {
+        Integer bookingId = ApiScenarioHelper.getBookingId();
         assertNotNull(bookingId, "bookingId not set");
 
         response = given()
@@ -124,17 +65,21 @@ public class BookingById {
                 .then()
                 .extract()
                 .response();
+
+        ApiResponseHelper.setLastResponse(response);
     }
 
     @Then("the booking details should match the created booking")
     public void theBookingDetailsShouldMatchTheCreatedBooking() {
+        Integer bookingId = ApiScenarioHelper.getBookingId();
+
         assertEquals(bookingId, response.jsonPath().getInt("bookingid"));
-        assertEquals(firstname, response.jsonPath().getString("firstname"));
-        assertEquals(lastname, response.jsonPath().getString("lastname"));
-        assertEquals(roomId, response.jsonPath().getInt("roomid"));
-        assertEquals(depositPaid, response.jsonPath().getBoolean("depositpaid"));
-        assertEquals(checkin, response.jsonPath().getString("bookingdates.checkin"));
-        assertEquals(checkout, response.jsonPath().getString("bookingdates.checkout"));
+        assertEquals(ApiScenarioHelper.getFirstname(), response.jsonPath().getString("firstname"));
+        assertEquals(ApiScenarioHelper.getLastname(), response.jsonPath().getString("lastname"));
+        assertEquals(ApiScenarioHelper.getRoomId(), response.jsonPath().getInt("roomid"));
+        assertEquals(ApiScenarioHelper.getDepositPaid(), response.jsonPath().getBoolean("depositpaid"));
+        assertEquals(ApiScenarioHelper.getCheckin(), response.jsonPath().getString("bookingdates.checkin"));
+        assertEquals(ApiScenarioHelper.getCheckout(), response.jsonPath().getString("bookingdates.checkout"));
     }
 
 
