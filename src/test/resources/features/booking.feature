@@ -7,3 +7,8 @@ Feature: Booking Api
     Then the response status code should be 200
     And the response should contain at least one booking
 
+
+  Scenario: Successfully create a booking
+    When I create a booking with valid data
+    Then the response status code should be 200
+    And the response should contain a bookingid
