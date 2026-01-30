@@ -13,6 +13,7 @@ import java.util.Random;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class BookingCreateSteps {
@@ -58,9 +59,15 @@ public class BookingCreateSteps {
                 "2025-11-05"
         );
 
-        Integer bookingId = response.jsonPath().getInt("bookingid");
+        assertEquals("Create booking failed. Body: " + response.asString(),
+                201, response.statusCode());
+
+        Integer bookingId = response.jsonPath().get("bookingid");
         assertNotNull(bookingId);
+
+        // Store bookingId for reuse in scenarios/steps
         ApiScenarioHelper.setBookingId(bookingId);
+        // Store the last API response for generic response assertions
         ApiResponseHelper.setLastResponse(response);
     }
 
@@ -195,7 +202,7 @@ public class BookingCreateSteps {
     }
 
 
-    @When("I create a booking with invalid dates")
+    @When("I create a booking with checkout before checkin")
     public void iCreateABookingWithInvalidDates() {
         roomId = new Random().nextInt(100) + 1;
 
@@ -205,6 +212,35 @@ public class BookingCreateSteps {
                 "Doe",
                 true,
                 "2025-11-05",
+                "2025-11-01",
+                "john.doe@example.com",
+                "1199999999999999"
+        );
+
+        response =
+                given()
+                        .baseUri("https://automationintesting.online/api")
+                        .contentType("application/json")
+                        .accept("application/json")
+                        .body(payload)
+                        .when()
+                        .post("/booking")
+                        .then()
+                        .extract().response();
+
+        ApiResponseHelper.setLastResponse(response);
+    }
+
+    @When("I create a booking with a bad date format")
+    public void iCreateABookingWithBadDateFormat() {
+        roomId = new Random().nextInt(100) + 1;
+
+        String payload = BookingPayloadBuilder.build(
+                roomId,
+                "John",
+                "Doe",
+                true,
+                "11-005-20025",
                 "2025-11-01",
                 "john.doe@example.com",
                 "1199999999999999"

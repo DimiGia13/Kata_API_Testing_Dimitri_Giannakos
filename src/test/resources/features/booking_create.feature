@@ -27,7 +27,12 @@ Feature: Booking creation
     And the response errors should contain "size must be between 11 and 21"
 
   @specDeviation
-  Scenario: Create booking fails when dates are invalid
-    When I create a booking with invalid dates
+  Scenario: Create booking fails when checkout before checkin
+    When I create a booking with checkout before checkin
     Then the response status should be 409
+    And the response errors should contain "Failed to create booking"
+
+  Scenario: Create booking fails with a bad date format
+    When I create a booking with a bad date format
+    Then the response status should be 400
     And the response errors should contain "Failed to create booking"

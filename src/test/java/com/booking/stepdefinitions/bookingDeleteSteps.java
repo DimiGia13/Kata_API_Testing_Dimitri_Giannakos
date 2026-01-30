@@ -3,6 +3,7 @@ package com.booking.stepdefinitions;
 import com.booking.ApiResponseHelper;
 import com.booking.helper.ApiScenarioHelper;
 import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 
@@ -13,6 +14,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 public class bookingDeleteSteps {
     private static final String BASE_URL = "https://automationintesting.online/api";
     private Response response;
+
+
+    @And("I have a non-existing booking id")
+    public void iHaveANonExistingBookingId() {
+        ApiScenarioHelper.setBookingId(999999999);
+    }
 
     @And("I delete the booking")
     public void iDeleteTheBooking() {
