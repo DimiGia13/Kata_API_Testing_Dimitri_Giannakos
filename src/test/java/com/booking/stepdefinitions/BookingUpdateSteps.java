@@ -2,6 +2,7 @@ package com.booking.stepdefinitions;
 
 import com.booking.api.config.BaseApiConfig;
 import com.booking.builder.BookingPayloadBuilder;
+import com.booking.dto.BookingRequest;
 import com.booking.helper.ApiResponseHelper;
 import com.booking.helper.ApiScenarioHelper;
 import io.cucumber.java.en.And;
@@ -30,7 +31,7 @@ public class BookingUpdateSteps extends BaseApiConfig {
         // new data
         updatedRoomId = new Random().nextInt(100) + 1;
 
-        String payload = BookingPayloadBuilder.build(
+        BookingRequest payload = BookingPayloadBuilder.build(
                 updatedRoomId,
                 "Jane",
                 "Smith",
@@ -64,7 +65,7 @@ public class BookingUpdateSteps extends BaseApiConfig {
         // reuse same updated values (or just set them here again)
         int anyRoomId = new Random().nextInt(100) + 1;
 
-        String payload = BookingPayloadBuilder.build(
+        BookingRequest payload = BookingPayloadBuilder.build(
                 anyRoomId,
                 "Jane",
                 "Smith",
@@ -103,7 +104,7 @@ public class BookingUpdateSteps extends BaseApiConfig {
         // new data
         updatedRoomId = new Random().nextInt(100) + 1;
 
-        String payload = BookingPayloadBuilder.build(
+        BookingRequest payload = BookingPayloadBuilder.build(
                 updatedRoomId,
                 "Ja",
                 "Smith",

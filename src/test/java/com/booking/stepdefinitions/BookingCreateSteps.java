@@ -1,6 +1,7 @@
 package com.booking.stepdefinitions;
 
 import com.booking.api.config.BaseApiConfig;
+import com.booking.dto.BookingRequest;
 import com.booking.helper.ApiResponseHelper;
 import com.booking.builder.BookingPayloadBuilder;
 import com.booking.helper.ApiScenarioHelper;
@@ -28,7 +29,7 @@ public class BookingCreateSteps extends BaseApiConfig {
     public void iSendAPostRequestToBookingWithValidData(){
          roomId = new Random().nextInt(100) + 1;
 
-        String payload = BookingPayloadBuilder.build(
+        BookingRequest payload = BookingPayloadBuilder.build(
                 roomId,
                 "John",
                 "Doe",
@@ -84,7 +85,7 @@ public class BookingCreateSteps extends BaseApiConfig {
     public void iCreateABookingWithInvalidFirstname() {
         roomId = new Random().nextInt(100) + 1;
 
-        String payload = BookingPayloadBuilder.build(
+        BookingRequest payload = BookingPayloadBuilder.build(
                 roomId,
                 "Jo",
                 "Doe",
@@ -110,7 +111,7 @@ public class BookingCreateSteps extends BaseApiConfig {
     public void iCreateABookingWithInvalidLastname() {
         roomId = new Random().nextInt(100) + 1;
 
-        String payload = BookingPayloadBuilder.build(
+        BookingRequest payload = BookingPayloadBuilder.build(
                 roomId,
                 "John",
                 "Do",
@@ -135,7 +136,7 @@ public class BookingCreateSteps extends BaseApiConfig {
     public void iCreateABookingWithInvalidEmail() {
         roomId = new Random().nextInt(100) + 1;
 
-        String payload = BookingPayloadBuilder.build(
+        BookingRequest payload = BookingPayloadBuilder.build(
                 roomId,
                 "John",
                 "Doe",
@@ -160,7 +161,7 @@ public class BookingCreateSteps extends BaseApiConfig {
     public void iCreateABookingWithInvalidPhoneNumber() {
         roomId = new Random().nextInt(100) + 1;
 
-        String payload = BookingPayloadBuilder.build(
+        BookingRequest payload = BookingPayloadBuilder.build(
                 roomId,
                 "John",
                 "Doe",
@@ -186,7 +187,7 @@ public class BookingCreateSteps extends BaseApiConfig {
     public void iCreateABookingWithInvalidDates() {
         roomId = new Random().nextInt(100) + 1;
 
-        String payload = BookingPayloadBuilder.build(
+        BookingRequest payload = BookingPayloadBuilder.build(
                 roomId,
                 "John",
                 "Doe",
@@ -211,7 +212,7 @@ public class BookingCreateSteps extends BaseApiConfig {
     public void iCreateABookingWithBadDateFormat() {
         roomId = new Random().nextInt(100) + 1;
 
-        String payload = BookingPayloadBuilder.build(
+        BookingRequest payload = BookingPayloadBuilder.build(
                 roomId,
                 "John",
                 "Doe",

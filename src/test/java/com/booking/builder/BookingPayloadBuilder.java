@@ -1,11 +1,14 @@
 package com.booking.builder;
 
+import com.booking.dto.BookingDates;
+import com.booking.dto.BookingRequest;
+
 public class BookingPayloadBuilder {
 
     private BookingPayloadBuilder() {
     }
 
-    public static String build(
+    public static BookingRequest build(
             int roomId,
             String firstname,
             String lastname,
@@ -15,19 +18,14 @@ public class BookingPayloadBuilder {
             String email,
             String phone
     ) {
-        return """
-    {
-      "roomid": %d,
-      "firstname": "%s",
-      "lastname": "%s",
-      "depositpaid": %s,
-      "bookingdates": {
-        "checkin": "%s",
-        "checkout": "%s"
-      },
-      "email": "%s",
-      "phone": "%s"
-    }
-    """.formatted(roomId, firstname, lastname, depositPaid, checkin, checkout, email, phone);
+       return new BookingRequest(
+               roomId,
+               firstname,
+               lastname,
+               depositPaid,
+               new BookingDates(checkin, checkout),
+               email,
+               phone
+       );
     }
 }
