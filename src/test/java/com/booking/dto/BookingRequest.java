@@ -4,7 +4,7 @@ public record BookingRequest (
     int roomid,
     String firstname,
     String lastname,
-    boolean depositpaid,
+    Boolean depositpaid,
     BookingDates bookingdates,
     String email,
     String phone

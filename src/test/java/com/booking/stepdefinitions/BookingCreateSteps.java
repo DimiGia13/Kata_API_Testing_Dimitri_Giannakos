@@ -2,6 +2,7 @@ package com.booking.stepdefinitions;
 
 import com.booking.api.config.BaseApiConfig;
 import com.booking.builder.BookingPayloadBuilder;
+import com.booking.dto.BookingDates;
 import com.booking.dto.BookingRequest;
 import com.booking.helper.ApiResponseHelper;
 import com.booking.helper.ApiScenarioHelper;
@@ -227,6 +228,31 @@ public class BookingCreateSteps extends BaseApiConfig {
                         .post("/booking")
                         .then()
                         .extract().response();
+
+        ApiResponseHelper.setLastResponse(response);
+    }
+
+
+    @When("I create a booking without required data")
+    public void iCreateABookingWithoutAFirstname() {
+        roomId = new Random().nextInt(100) + 1;
+
+        BookingRequest payload = new BookingRequest(
+                roomId,
+                null,
+                null,
+                null,
+                new BookingDates(null, null),
+                null,
+                null
+        );
+
+        response = baseRequest()
+                .body(payload)
+                .when()
+                .post("/booking")
+                .then()
+                .extract().response();
 
         ApiResponseHelper.setLastResponse(response);
     }

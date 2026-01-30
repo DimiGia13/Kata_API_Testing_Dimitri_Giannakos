@@ -42,3 +42,9 @@ Feature: Booking creation
     When I create a booking with a bad date format
     Then the response status should be 400
     And the response errors should contain "Failed to create booking"
+
+  @negative @validation
+  Scenario: Create booking fails when required data is missing
+    When I create a booking without required data
+    Then the response status should be 400
+    And the response errors should contain "Failed to create booking"
