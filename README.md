@@ -65,3 +65,57 @@ This kata has the purpose to evaluate both your technical skills as well as your
 * Quality of the codebase (design patterns, structure, code quality, …)
 * Use of Rest-Assured and Cucumber features
 * Commit history and progress demonstration
+
+
+## API Specification Deviations & Observations
+
+The following deviations were identified during automated API testing.
+Expected behaviors are based on the provided OpenAPI specification 
+
+GET /booking/{id}
+
+Invalid id format (e.g. /booking/abc, /booking/-1, /booking/1.5)
+
+Expected: 400 Bad Request (invalid path parameter format)
+
+Actual: 401 
+
+Note: This behavior is not explicitly documented in the spec.
+
+POST /booking
+
+Checkout before checkin
+
+Expected: 400 Bad Request (validation error)
+
+Actual: 409 Conflict
+
+Note: The API returns a conflict instead of a validation error for an invalid date range.
+
+DELETE /booking/{id}
+
+Delete non-existing booking
+
+Expected: 404 Not Found (resource does not exist)
+
+Actual: 500 Internal Server Error
+
+Note: A non-existing resource should not cause a server error.
+
+PATCH /booking/{id}
+
+Partially update booking with valid patch payload
+
+Expected: 200 OK (booking partially updated)
+
+Actual: 405 Method Not Allowed
+
+Note: The endpoint/method appears not implemented or disabled on the server.
+
+Partially update booking without authentication
+
+Expected: 401 Unauthorized (missing/invalid token)
+
+Actual: 405 Method Not Allowed
+
+Note: Since the method returns 405 even without authentication, the request is likely rejected before auth is evaluated.
