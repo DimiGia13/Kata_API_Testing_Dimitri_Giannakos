@@ -7,8 +7,6 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 
-import static io.restassured.RestAssured.given;
-import static io.restassured.http.ContentType.JSON;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 public class bookingDeleteSteps extends BaseApiConfig {

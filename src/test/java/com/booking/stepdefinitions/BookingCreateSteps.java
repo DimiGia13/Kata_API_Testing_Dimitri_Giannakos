@@ -1,9 +1,9 @@
 package com.booking.stepdefinitions;
 
 import com.booking.api.config.BaseApiConfig;
+import com.booking.builder.BookingPayloadBuilder;
 import com.booking.dto.BookingRequest;
 import com.booking.helper.ApiResponseHelper;
-import com.booking.builder.BookingPayloadBuilder;
 import com.booking.helper.ApiScenarioHelper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
@@ -12,7 +12,6 @@ import io.restassured.response.Response;
 
 import java.util.Random;
 
-import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertEquals;
@@ -24,7 +23,6 @@ public class BookingCreateSteps extends BaseApiConfig {
     private int roomId;
     private Response response;
 
-    //region create a booking scenario
     @When("I create a booking with valid data")
     public void iSendAPostRequestToBookingWithValidData(){
          roomId = new Random().nextInt(100) + 1;

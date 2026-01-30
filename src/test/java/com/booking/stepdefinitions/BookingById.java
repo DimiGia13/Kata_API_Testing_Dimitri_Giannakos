@@ -3,6 +3,7 @@ package com.booking.stepdefinitions;
 import com.booking.api.config.BaseApiConfig;
 import com.booking.helper.ApiResponseHelper;
 import com.booking.helper.ApiScenarioHelper;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
@@ -43,6 +44,19 @@ public class BookingById extends BaseApiConfig {
 
         response = baseRequest()
                 .pathParam("id", bookingId)
+                .when()
+                .get("/booking/{id}")
+                .then()
+                .extract()
+                .response();
+
+        ApiResponseHelper.setLastResponse(response);
+    }
+
+    @And("I retrieve the booking with id {string}")
+    public void iRetrieveTheBookingWithId(String id) {
+        response = baseRequest()
+                .pathParam("id", id)
                 .when()
                 .get("/booking/{id}")
                 .then()
