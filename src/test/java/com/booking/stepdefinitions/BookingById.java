@@ -1,29 +1,18 @@
 package com.booking.stepdefinitions;
 
-import com.booking.ApiResponseHelper;
+import com.booking.api.config.BaseApiConfig;
+import com.booking.helper.ApiResponseHelper;
 import com.booking.helper.ApiScenarioHelper;
-import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 
-import static io.restassured.RestAssured.given;
-import static io.restassured.http.ContentType.JSON;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class BookingById {
-    private static final String BASE_URL = "https://automationintesting.online/api";
+public class BookingById extends BaseApiConfig {
 
     private Response response;
-
-    // expected booking data
-    private int roomId;
-    private String firstname;
-    private String lastname;
-    private boolean depositPaid;
-    private String checkin;
-    private String checkout;
 
     // ---------- GET BOOKING BY ID ----------
 
@@ -34,9 +23,7 @@ public class BookingById {
         assertNotNull(token, "Token not set");
         assertNotNull(bookingId, "bookingId not set");
 
-        response = given()
-                .baseUri(BASE_URL)
-                .accept(JSON)
+        response = baseRequest()
                 .header("Cookie", "token=" + token)
                 .pathParam("id", bookingId)
                 .when()
@@ -56,9 +43,7 @@ public class BookingById {
         Integer bookingId = ApiScenarioHelper.getBookingId();
         assertNotNull(bookingId, "bookingId not set");
 
-        response = given()
-                .baseUri(BASE_URL)
-                .accept(JSON)
+        response = baseRequest()
                 .pathParam("id", bookingId)
                 .when()
                 .get("/booking/{id}")

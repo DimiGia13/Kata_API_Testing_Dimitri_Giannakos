@@ -1,22 +1,19 @@
 package com.booking.stepdefinitions;
 
-import com.booking.ApiResponseHelper;
+import com.booking.api.config.BaseApiConfig;
 import com.booking.builder.BookingPayloadBuilder;
+import com.booking.helper.ApiResponseHelper;
 import com.booking.helper.ApiScenarioHelper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.en.When;
 import io.restassured.response.Response;
 
 import java.util.Random;
 
-import static io.restassured.RestAssured.given;
-import static io.restassured.http.ContentType.JSON;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class BookingUpdateSteps {
-    private static final String BASE_URL = "https://automationintesting.online/api";
+public class BookingUpdateSteps extends BaseApiConfig {
 
     private Response response;
     private int updatedRoomId;
@@ -45,10 +42,7 @@ public class BookingUpdateSteps {
 
         );
 
-        response = given()
-                .baseUri(BASE_URL)
-                .contentType(JSON)
-                .accept(JSON)
+        response = baseRequest()
                 .header("Cookie", "token=" + token)
                 .pathParam("id", bookingId)
                 .body(payload)
@@ -81,10 +75,7 @@ public class BookingUpdateSteps {
                 "11888888888"
         );
 
-        response = given()
-                .baseUri(BASE_URL)
-                .contentType(JSON)
-                .accept(JSON)
+        response = baseRequest()
                 .pathParam("id", bookingId)
                 .body(payload)
                 .when()
@@ -123,10 +114,7 @@ public class BookingUpdateSteps {
                 "11999999999"
         );
 
-        response = given()
-                .baseUri(BASE_URL)
-                .contentType(JSON)
-                .accept(JSON)
+        response = baseRequest()
                 .header("Cookie", "token=" + token)
                 .pathParam("id", bookingId)
                 .body(payload)

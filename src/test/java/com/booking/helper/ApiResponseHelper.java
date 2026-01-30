@@ -1,4 +1,4 @@
-package com.booking;
+package com.booking.helper;
 
 import io.restassured.response.Response;
 

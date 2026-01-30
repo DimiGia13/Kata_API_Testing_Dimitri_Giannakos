@@ -1,6 +1,7 @@
 package com.booking.stepdefinitions;
 
-import com.booking.ApiResponseHelper;
+import com.booking.api.config.BaseApiConfig;
+import com.booking.helper.ApiResponseHelper;
 import com.booking.builder.BookingPayloadBuilder;
 import com.booking.helper.ApiScenarioHelper;
 import io.cucumber.java.en.And;
@@ -16,10 +17,9 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-public class BookingCreateSteps {
+public class BookingCreateSteps extends BaseApiConfig {
 
-    private static final String BASE_URL = "https://automationintesting.online/api";
-    private static final Random RANDOM = new Random(42);
+
     private int roomId;
     private Response response;
 
@@ -39,11 +39,7 @@ public class BookingCreateSteps {
                 "11999999999"
         );
 
-        response =
-                given()
-                        .baseUri("https://automationintesting.online/api")
-                        .contentType("application/json")
-                        .accept("application/json")
+        response = baseRequest()
                         .body(payload)
                         .when()
                         .post("/booking")
@@ -99,11 +95,7 @@ public class BookingCreateSteps {
                 "11999999999"
         );
 
-        response =
-                given()
-                        .baseUri("https://automationintesting.online/api")
-                        .contentType("application/json")
-                        .accept("application/json")
+        response =baseRequest()
                         .body(payload)
                         .when()
                         .post("/booking")
@@ -129,11 +121,7 @@ public class BookingCreateSteps {
                 "11999999999"
         );
 
-        response =
-                given()
-                        .baseUri("https://automationintesting.online/api")
-                        .contentType("application/json")
-                        .accept("application/json")
+        response =baseRequest()
                         .body(payload)
                         .when()
                         .post("/booking")
@@ -158,11 +146,7 @@ public class BookingCreateSteps {
                 "11999999999"
         );
 
-        response =
-                given()
-                        .baseUri("https://automationintesting.online/api")
-                        .contentType("application/json")
-                        .accept("application/json")
+        response =baseRequest()
                         .body(payload)
                         .when()
                         .post("/booking")
@@ -187,11 +171,7 @@ public class BookingCreateSteps {
                 "1199999999999999999999999999999999999999999999999999999999999999"
         );
 
-        response =
-                given()
-                        .baseUri("https://automationintesting.online/api")
-                        .contentType("application/json")
-                        .accept("application/json")
+        response = baseRequest()
                         .body(payload)
                         .when()
                         .post("/booking")
@@ -217,11 +197,7 @@ public class BookingCreateSteps {
                 "1199999999999999"
         );
 
-        response =
-                given()
-                        .baseUri("https://automationintesting.online/api")
-                        .contentType("application/json")
-                        .accept("application/json")
+        response =baseRequest()
                         .body(payload)
                         .when()
                         .post("/booking")
@@ -246,11 +222,7 @@ public class BookingCreateSteps {
                 "1199999999999999"
         );
 
-        response =
-                given()
-                        .baseUri("https://automationintesting.online/api")
-                        .contentType("application/json")
-                        .accept("application/json")
+        response =baseRequest()
                         .body(payload)
                         .when()
                         .post("/booking")

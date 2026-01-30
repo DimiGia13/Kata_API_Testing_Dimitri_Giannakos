@@ -1,6 +1,7 @@
 package com.booking.stepdefinitions;
 
-import com.booking.ApiResponseHelper;
+import com.booking.api.config.BaseApiConfig;
+import com.booking.helper.ApiResponseHelper;
 import com.booking.helper.ApiScenarioHelper;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
@@ -10,13 +11,10 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.jupiter.api.Assertions;
 
-import java.util.Map;
-
 import static io.restassured.http.ContentType.JSON;
 
-public class AuthSteps {
+public class AuthSteps extends BaseApiConfig {
 
-    private static final String BASE_URL = "https://automationintesting.online/api";
     private Response response;
     private String token;
 
@@ -32,10 +30,7 @@ public class AuthSteps {
 
     @When("I request an auth token")
     public void iRequestAnAuthToken() {
-        response = RestAssured
-                .given()
-                .baseUri(BASE_URL)
-                .contentType(JSON)
+        response = baseRequest()
                 .body("{\"username\":\"" + username + "\",\"password\":\"" + password + "\"}")
                 .when()
                 .post("/auth/login");

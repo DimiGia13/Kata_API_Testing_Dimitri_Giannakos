@@ -1,6 +1,6 @@
 package com.booking.stepdefinitions;
 
-import com.booking.ApiResponseHelper;
+import com.booking.helper.ApiResponseHelper;
 import io.cucumber.java.en.Then;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
