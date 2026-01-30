@@ -69,6 +69,26 @@ This kata has the purpose to evaluate both your technical skills as well as your
 
 ## API Specification Deviations & Observations
 
+### Happy-path coverage
+Happy-path scenarios validate that the API behaves as expected when valid input
+and authentication are provided (e.g. successful booking creation, retrieval,
+update and deletion).
+
+### Negative and validation scenarios
+Negative scenarios focus on:
+- missing or invalid authentication
+- invalid input values
+- missing required fields
+- non-existing resources
+
+These tests verify that the API fails safely and returns meaningful HTTP status codes.
+
+### Required field validation
+For booking creation, required-field validation is tested explicitly by sending
+requests with missing mandatory fields. This ensures that server-side validation
+is enforced and not solely relied upon by client-side checks.
+
+
 The following deviations were identified during automated API testing.
 Expected behaviors are based on the provided OpenAPI specification 
 
