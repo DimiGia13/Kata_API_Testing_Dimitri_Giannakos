@@ -1,5 +1,6 @@
 Feature: Delete booking
 
+  @happy @auth
   Scenario: Delete booking with valid token
     Given I have login data with username "admin" and password "password"
     When I request an auth token
@@ -7,13 +8,13 @@ Feature: Delete booking
     And I delete the booking
     Then the response status should be 200
 
-  @specDeviation
-  Scenario: Delete booking without token returns 401
+  @negative @noAuth
+  Scenario: Delete booking without token
     Given I create a booking with valid data
     When I delete the booking without authentication
     Then the response status should be 401
 
-  @delete @negative
+  @negative @specDeviation
   Scenario: Delete non-existing booking
     Given I have login data with username "admin" and password "password"
     When I request an auth token
@@ -21,7 +22,7 @@ Feature: Delete booking
     And I delete the booking
     Then the response status should be 500
 
-  @delete @negative
+  @negative @auth @validation
   Scenario: Delete a booking with a negative id
     Given I have login data with username "admin" and password "password"
     When I request an auth token

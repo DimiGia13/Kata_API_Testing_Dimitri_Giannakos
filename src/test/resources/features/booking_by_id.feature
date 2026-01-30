@@ -1,5 +1,6 @@
 Feature: Get booking by id
 
+  @happy @auth
   Scenario: Retrieve booking details with valid token
     Given I have login data with username "admin" and password "password"
     When I request an auth token
@@ -8,13 +9,13 @@ Feature: Get booking by id
     Then the response status should be 200
     And the booking details should match the created booking
 
-
+  @negative @noAuth
   Scenario: Retrieve booking details without token
     Given I create a booking with valid data
     When I retrieve the booking by id without authentication
     Then the response status should be 401
 
-  @SpecDeviation
+  @negative @validation @specDeviation
   Scenario Outline: Retrieve booking details with invalid id format
     Given I have login data with username "admin" and password "password"
     When I request an auth token
