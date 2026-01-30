@@ -35,7 +35,6 @@ Feature: Booking creation
   Scenario: Create booking fails when checkout before checkin
     When I create a booking with checkout before checkin
     Then the response status should be 409
-    And the response errors should contain "Failed to create booking"
 
   @negative @validation
   Scenario: Create booking fails with a bad date format

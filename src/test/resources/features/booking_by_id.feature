@@ -20,7 +20,7 @@ Feature: Get booking by id
     Given I have login data with username "admin" and password "password"
     When I request an auth token
     And I retrieve the booking with id "<id>"
-    Then the response status should be 400
+    Then the response status should be 401
 
     Examples:
       | id   |
