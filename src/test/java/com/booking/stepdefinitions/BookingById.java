@@ -14,8 +14,6 @@ public class BookingById extends BaseApiConfig {
 
     private Response response;
 
-    // ---------- GET BOOKING BY ID ----------
-
     @When("I retrieve the booking by id")
     public void iRetrieveTheBookingById() {
         String token = ApiScenarioHelper.getToken();
