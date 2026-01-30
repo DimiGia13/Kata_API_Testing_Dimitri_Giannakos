@@ -11,3 +11,9 @@ Feature: Authentication
     When I request an auth token
     Then the response status should be 401
     And the error message should be "Invalid credentials"
+
+  Scenario: Login fails without username
+    Given I have login data without a username
+    When I request an auth token
+    Then the response status should be 401
+    And the error message should be "Invalid credentials"

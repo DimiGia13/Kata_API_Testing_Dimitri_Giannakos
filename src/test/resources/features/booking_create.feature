@@ -4,7 +4,7 @@ Feature: Booking creation
   Scenario: Successfully create a booking
     When I create a booking with valid data
     Then the response status should be 201
-    And the response should contain a bookingid
+    And the response should contain a booking id
 
   Scenario: Create booking fails when firstname is too short
     When I create a booking with an invalid firstname

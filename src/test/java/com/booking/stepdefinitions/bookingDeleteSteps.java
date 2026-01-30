@@ -21,6 +21,11 @@ public class bookingDeleteSteps {
         ApiScenarioHelper.setBookingId(999999999);
     }
 
+    @And("I have a negative booking id")
+    public void iHaveANegativeBookingId() {
+        ApiScenarioHelper.setBookingId(-5);
+    }
+
     @And("I delete the booking")
     public void iDeleteTheBooking() {
         String token = ApiScenarioHelper.getToken();

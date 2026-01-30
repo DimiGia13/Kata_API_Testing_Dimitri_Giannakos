@@ -35,6 +35,12 @@ public class AuthSteps {
         password = "wrong";
     }
 
+    @Given("I have login data without a username")
+    public void iHaveLoginDataWithoutUserName() {
+        username = "";
+        password = "password";
+    }
+
     @When("I request an auth token")
     public void iRequestAnAuthToken() {
         response = RestAssured

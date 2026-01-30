@@ -73,7 +73,7 @@ public class BookingCreateSteps {
 
 
 
-    @And("the response should contain a bookingid")
+    @And("the response should contain a booking id")
     public void theResponseShouldContainABookingId() {
         response.then().body("bookingid", notNullValue());
     }

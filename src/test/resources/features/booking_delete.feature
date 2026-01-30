@@ -20,3 +20,11 @@ Feature: Delete booking
     And I have a non-existing booking id
     And I delete the booking
     Then the response status should be 500
+
+  @delete @negative
+  Scenario: Delete a booking with a negative id
+    Given I have valid admin credentials
+    When I request an auth token
+    And I have a negative booking id
+    And I delete the booking
+    Then the response status should be 500
