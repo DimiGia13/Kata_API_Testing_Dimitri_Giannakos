@@ -23,22 +23,11 @@ public class AuthSteps {
     private String username;
     private String password;
 
-    @Given("I have valid admin credentials")
-    public void iHaveValidAdminCredentials() {
-        username = "admin";
-        password = "password";
-    }
 
-    @Given("I have invalid credentials")
-    public void iHaveInvalidCredentials() {
-        username = "admin";
-        password = "wrong";
-    }
-
-    @Given("I have login data without a username")
-    public void iHaveLoginDataWithoutUserName() {
-        username = "";
-        password = "password";
+    @Given("I have login data with username {string} and password {string}")
+    public void iHaveLoginData(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 
     @When("I request an auth token")
